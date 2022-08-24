@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>PensionDetailServiceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">pensioner-detail-service (23-Aug-2022 10:01:20 pm)</a> &gt; <a href="../../index.html" class="el_group">pensioner-detail-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.cts.pensionerDetails.Service</a> &gt; <span class="el_source">PensionDetailServiceTest.java</span></div><h1>PensionDetailServiceTest.java</h1><pre class="source lang-java linenums">package com.cts.pensionerDetails.Service;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+//import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.cts.pensionerDetails.Exception.NotFoundException;
+import com.cts.pensionerDetails.Model.BankDetails;
+import com.cts.pensionerDetails.Model.PensionerDetails;
+import com.cts.pensionerDetails.Util.DateUtil;
+
+/**
+ * @author Brajesh
+ * 
+ *         This is the service test class
+ * 
+ *         Test cases for the Pension Detail Service
+ *
+ */
+@SpringBootTest
+<span class="fc" id="L30">class PensionDetailServiceTest {</span>
+
+	@Autowired
+	IPensionerDetailService pds;
+
+	@Value(&quot;${errorMessage}&quot;)
+	private String AADHAAR_NUMBER_NOT_FOUND;
+
+	/**
+	 * Test the Pensioner Detail service is null or not
+	 */
+
+	@Test
+	void testNotNullPensionDetailServiceObject() {
+<span class="fc" id="L44">		assertNotNull(pds);</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Test Case for the Correct Details Returned From Service With Correct
+	 * AadharNumber
+	 */
+
+	@Test
+	void testCorrectDetailsReturnedFromServiceWithCorrectAadharNumber()
+			throws IOException, NotFoundException, NumberFormatException,
+			com.cts.pensionerDetails.Exception.NotFoundException, ParseException, NullPointerException {
+		final String aadhaarNumber = &quot;123456789012&quot;;
+
+<span class="fc" id="L58">		PensionerDetails pensionerDetail = new PensionerDetails(&quot;Achyuth&quot;, DateUtil.parseDate(&quot;12-09-1956&quot;),</span>
+				&quot;BHMER12436&quot;, 27000, 10000, &quot;self&quot;, new BankDetails(&quot;ICICI&quot;, 12345678, &quot;private&quot;));
+		assertEquals(pds.getPensionerDetailByAadhaarNumber(aadhaarNumber).getPan(), pensionerDetail.getPan());
+		assertEquals(pds.getPensionerDetailByAadhaarNumber(aadhaarNumber).getBank().getAccountNumber(), pensionerDetail.getBank().getAccountNumber());
+	}
+
+	/**
+	 * Test Case for the incorrect details returned From Service With Invalid
+	 * Aadhaar Number
+	 */
+
+	@Test
+	void testForIncorrectAadharNumber() {
+<span class="fc" id="L71">		final String aadhaarNumber = &quot;12345678&quot;;</span>
+
+<span class="pc" id="L73">		NotFoundException exception = assertThrows(NotFoundException.class,</span>
+<span class="pc" id="L74">				() -&gt; pds.getPensionerDetailByAadhaarNumber(aadhaarNumber));</span>
+<span class="nc" id="L75">		assertEquals(exception.getMessage(), AADHAAR_NUMBER_NOT_FOUND);</span>
+<span class="nc" id="L76">		assertNotNull(exception);</span>
+<span class="nc" id="L77">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>pensioner-detail-service (23-Aug-2022 10:01:20 pm)</div></body></html>

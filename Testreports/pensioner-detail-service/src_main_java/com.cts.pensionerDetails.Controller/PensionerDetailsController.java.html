@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>PensionerDetailsController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">pensioner-detail-service (23-Aug-2022 10:01:20 pm)</a> &gt; <a href="../../index.html" class="el_group">pensioner-detail-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.cts.pensionerDetails.Controller</a> &gt; <span class="el_source">PensionerDetailsController.java</span></div><h1>PensionerDetailsController.java</h1><pre class="source lang-java linenums">package com.cts.pensionerDetails.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cts.pensionerDetails.Model.PensionerDetails;
+import com.cts.pensionerDetails.Service.PensionerDetailServiceImpl;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author Brajesh
+ * 
+ *         Pensioner Details Controller is to get the details of pensioner by
+ *         passing the Aadhaar Number
+ *
+ */
+@RestController
+@Slf4j
+@CrossOrigin
+<span class="fc" id="L24">public class PensionerDetailsController {</span>
+
+	@Autowired
+	private PensionerDetailServiceImpl pensionerDetailService;
+
+	/**
+	 * @URL: http://localhost:8083/pensionerDetailByAadhaar/123456789012
+	 * 
+	 * @return if Aadhaar Number then return the pensioner details else throws
+	 *         Exception
+	 * 
+	 * @Expceted: {
+				  &quot;name&quot;: &quot;Achyuth&quot;,
+				  &quot;dateOfBirth&quot;: &quot;1956-09-11T18:30:00.000+00:00&quot;,
+				  &quot;pan&quot;: &quot;BHMER12436&quot;,
+				  &quot;salary&quot;: 27000,
+				  &quot;allowance&quot;: 10000,
+				  &quot;pensionType&quot;: &quot;self&quot;,
+				  &quot;bank&quot;: {
+				    &quot;bankName&quot;: &quot;ICICI&quot;,
+				    &quot;accountNumber&quot;: 12345678,
+				    &quot;bankType&quot;: &quot;private&quot;
+				  }
+				}
+	 *
+	 */
+
+	@GetMapping(&quot;/pensionerDetailByAadhaar/{aadhaarNumber}&quot;)
+	public PensionerDetails getPensionerDetailByAadhaar(@PathVariable String aadhaarNumber) {
+<span class="fc" id="L53">		log.info(&quot;START - getPensionerDetailByAadhaar()&quot;);</span>
+		return pensionerDetailService.getPensionerDetailByAadhaarNumber(aadhaarNumber);
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>pensioner-detail-service (23-Aug-2022 10:01:20 pm)</div></body></html>
